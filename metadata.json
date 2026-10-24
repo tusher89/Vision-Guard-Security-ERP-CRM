@@ -1,0 +1,6 @@
+{
+  "name": "Apex Quotation ERP & CRM",
+  "description": "Enterprise Quotation & Client Management ERP CRM system with instant professional A4 quotation builder, customizable templates, and high-resolution print/PDF generation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
