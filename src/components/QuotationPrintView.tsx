@@ -304,14 +304,21 @@ export const QuotationPrintView: React.FC<QuotationPrintViewProps> = ({
             <div className="space-y-2">
               {/* Brand Logo & Name */}
               <div className="flex items-center gap-3.5">
-                <VisionGuardLogo showText={false} size="lg" />
+                {company.logoUrl ? (
+                  <img
+                    src={company.logoUrl}
+                    alt={company.name}
+                    className="h-16 max-w-[220px] object-contain shrink-0"
+                  />
+                ) : (
+                  <VisionGuardLogo showText={false} size="lg" />
+                )}
                 <div>
-                  <div className="flex items-center gap-1.5 text-2xl font-black tracking-tight leading-none text-[#0B132B]">
-                    <span>VISION</span>
-                    <span className="text-cyan-600">GUARD</span>
+                  <div className="text-2xl font-black tracking-tight leading-tight text-[#0B132B]">
+                    {company.name}
                   </div>
-                  <span className="text-[10px] font-bold tracking-[0.22em] text-slate-600 block uppercase mt-1">
-                    CCTV &amp; Security Solutions
+                  <span className="text-[10px] font-bold tracking-[0.22em] text-slate-600 block uppercase mt-0.5">
+                    {company.tagline || 'Commercial Security & Enterprise Solutions'}
                   </span>
                 </div>
               </div>

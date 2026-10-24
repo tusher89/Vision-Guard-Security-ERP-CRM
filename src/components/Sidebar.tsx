@@ -68,10 +68,26 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* Brand & Wordmark Zone */}
       <div>
         <div className="p-4 border-b border-neutral-800/80 bg-neutral-950/40">
-          <VisionGuardLogo showText={true} size="md" />
+          {company.logoUrl ? (
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-white/5 border border-neutral-700/80 flex items-center justify-center p-1 shrink-0 overflow-hidden shadow-xs">
+                <img
+                  src={company.logoUrl}
+                  alt={company.name}
+                  className="max-w-full max-h-full object-contain"
+                />
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="font-bold text-white text-sm truncate leading-snug">{company.name}</div>
+                <div className="text-[10px] text-cyan-400 truncate mt-0.5">{company.tagline || 'ERP System'}</div>
+              </div>
+            </div>
+          ) : (
+            <VisionGuardLogo showText={true} size="md" />
+          )}
           <div className="text-[10px] font-mono text-cyan-400/80 mt-2.5 flex items-center justify-between">
-            <span className="truncate">CR: 403012389</span>
-            <span className="text-neutral-500 font-sans">Jeddah, KSA</span>
+            <span className="truncate">{company.taxId ? company.taxId.split('|')[0].trim() : 'CR: 403012389'}</span>
+            <span className="text-neutral-500 font-sans">{company.city || 'Jeddah, KSA'}</span>
           </div>
         </div>
 

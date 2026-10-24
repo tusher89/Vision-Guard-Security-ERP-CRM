@@ -14,8 +14,12 @@ import {
   Sparkles,
   FileSpreadsheet,
   Package,
-  Users
+  Users,
+  Image as ImageIcon,
+  Trash2,
+  UploadCloud
 } from 'lucide-react';
+import { VisionGuardLogo } from './VisionGuardLogo';
 import { ExcelImportModal } from './ExcelImportModal';
 import { 
   downloadProductsExcelTemplate, 
@@ -87,6 +91,32 @@ export const CompanySettings: React.FC<CompanySettingsProps> = ({
     reader.readAsText(file);
   };
 
+  const handleLogoFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      alert('Please select an image file (PNG, JPG, SVG, WebP)');
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert('Image file is too large. Please select an image under 5MB.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const base64Data = event.target?.result as string;
+      if (base64Data) {
+        handleChange('logoUrl', base64Data);
+        setSavedSuccess(true);
+        setTimeout(() => setSavedSuccess(false), 3000);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Top Header */}
@@ -96,7 +126,7 @@ export const CompanySettings: React.FC<CompanySettingsProps> = ({
             Company Profile & Quotation Settings
           </h1>
           <p className="text-xs text-neutral-400">
-            Configure your official company letterhead, bank remittance details, and default quotation terms.
+            Configure your official company letterhead, logo, bank details, and default quotation terms.
           </p>
         </div>
 
@@ -110,10 +140,81 @@ export const CompanySettings: React.FC<CompanySettingsProps> = ({
 
       <form onSubmit={handleSave} className="space-y-6">
         {/* Company Letterhead Identity */}
-        <div className="bg-neutral-850 border border-neutral-800 rounded-xl p-5 space-y-4">
+        <div className="bg-neutral-850 border border-neutral-800 rounded-xl p-5 space-y-5">
           <div className="flex items-center gap-2 text-sm font-semibold text-white border-b border-neutral-800 pb-3">
             <Building className="w-4 h-4 text-blue-400" />
-            Official Letterhead Information
+            Official Letterhead &amp; Brand
+          </div>
+
+          {/* Company Official Logo Upload & Live Preview Card */}
+          <div className="bg-neutral-900 border border-neutral-750 rounded-2xl p-4 sm:p-5 space-y-3.5 shadow-sm">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <label className="text-sm font-bold text-white flex items-center gap-2">
+                  <ImageIcon className="w-4 h-4 text-cyan-400" />
+                  <span>Company Official Logo (Import / Upload)</span>
+                </label>
+                <p className="text-xs text-neutral-400 mt-0.5">
+                  Import your official company logo. It automatically formats on quotation printouts, PDFs, and system menus.
+                </p>
+              </div>
+
+              {formData.logoUrl && (
+                <button
+                  type="button"
+                  onClick={() => handleChange('logoUrl', '')}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 text-xs text-red-400 hover:text-red-300 hover:bg-red-950/40 border border-red-900/40 rounded-lg transition-colors cursor-pointer"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  <span>Reset / Remove Logo</span>
+                </button>
+              )}
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center gap-5 pt-1">
+              {/* Logo Preview Box */}
+              <div className="w-40 h-28 sm:w-48 sm:h-32 rounded-xl border-2 border-dashed border-neutral-700 bg-neutral-950 flex items-center justify-center p-3 relative overflow-hidden shrink-0 shadow-inner">
+                {formData.logoUrl ? (
+                  <img
+                    src={formData.logoUrl}
+                    alt="Company Logo Preview"
+                    className="max-w-full max-h-full object-contain"
+                  />
+                ) : (
+                  <div className="text-center space-y-1.5">
+                    <VisionGuardLogo showText={false} size="md" />
+                    <span className="text-[10px] text-neutral-500 block font-medium">Default System Logo</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Upload Controls */}
+              <div className="flex-1 space-y-3 w-full">
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <label className="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-xl text-xs font-bold shadow-lg shadow-cyan-600/20 cursor-pointer transition-all active:scale-95">
+                    <UploadCloud className="w-4 h-4" />
+                    <span>Import Logo File (PNG, JPG, SVG)</span>
+                    <input
+                      type="file"
+                      accept="image/png, image/jpeg, image/jpg, image/svg+xml, image/webp"
+                      onChange={handleLogoFileUpload}
+                      className="hidden"
+                    />
+                  </label>
+                  <span className="text-xs text-neutral-500">or enter image web URL:</span>
+                </div>
+
+                <div className="relative">
+                  <input
+                    type="url"
+                    placeholder="https://yourcompany.com/assets/logo.png"
+                    value={formData.logoUrl || ''}
+                    onChange={(e) => handleChange('logoUrl', e.target.value)}
+                    className="w-full bg-neutral-950 border border-neutral-700/80 rounded-xl px-3.5 py-2 text-xs text-white placeholder:text-neutral-500 focus:border-cyan-500 focus:outline-none"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
