@@ -245,9 +245,9 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
         className="bg-neutral-850/95 backdrop-blur-md border border-neutral-800 rounded-xl p-3.5 space-y-3 sm:space-y-0 sm:flex sm:items-center sm:justify-between sm:gap-4 shadow-lg shadow-black/20"
       >
         {/* Left Side: Animated Search Input & Category Pills */}
-        <div className="flex flex-1 items-center gap-3 min-w-0">
+        <div className="flex flex-col sm:flex-row flex-1 sm:items-center gap-3 min-w-0">
           {/* Animated Search Input */}
-          <div className="relative w-64 sm:w-80 shrink-0">
+          <div className="relative w-full sm:w-80 shrink-0">
             <motion.div
               animate={{ scale: searchQuery ? 1.1 : 1, color: searchQuery ? '#06b6d4' : '#737373' }}
               transition={{ duration: 0.2 }}
@@ -422,145 +422,208 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
         </motion.div>
       </motion.div>
 
-      {/* Products Table with Motion */}
+      {/* Products Display: Mobile Touch Cards (<md) + Desktop Table (>=md) */}
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.4 }}
         className="bg-neutral-850 border border-neutral-800 rounded-xl overflow-hidden shadow-sm"
       >
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-neutral-900/80 border-b border-neutral-800 text-neutral-400 font-semibold text-xs tracking-wider uppercase">
-              <tr>
-                <th className="py-3.5 px-4 w-36">Model Number</th>
-                <th className="py-3.5 px-4">Product Name &amp; Arabic Specs</th>
-                <th className="py-3.5 px-4">Category</th>
-                <th className="py-3.5 px-4 text-center">Unit</th>
-                <th className="py-3.5 px-4 text-right">Standard Rate</th>
-                <th className="py-3.5 px-4 text-right w-24">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-neutral-800/80">
-              <AnimatePresence mode="popLayout">
-                {filteredProducts.map((product, idx) => {
-                  const arabic = product.arabicName || getAutoArabicName(product.name);
-                  return (
-                    <motion.tr 
-                      key={product.id}
-                      layout
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, x: -20, height: 0 }}
-                      transition={{ duration: 0.25, delay: idx * 0.02 }}
-                      className="hover:bg-neutral-800/50 transition-colors"
-                    >
-                      <td className="py-4 px-4 whitespace-nowrap">
-                        <span className="inline-block px-3 py-1 rounded-lg bg-cyan-950/70 border border-cyan-500/40 text-cyan-300 font-mono text-xs sm:text-sm font-bold tracking-wide shadow-xs">
-                          {product.code}
-                        </span>
-                      </td>
-                      <td className="py-4 px-4 max-w-md">
-                        <div className="font-bold text-white text-sm sm:text-base leading-snug">{product.name}</div>
-                        {/* Bilingual Arabic display */}
-                        {arabic && (
-                          <div className="text-xs sm:text-sm font-semibold text-cyan-400 font-sans mt-0.5 tracking-tight" dir="rtl">
-                            {arabic}
-                          </div>
-                        )}
-                        {product.description && (
-                          <p className="text-xs text-neutral-400 mt-1 line-clamp-2 leading-relaxed">
-                            {product.description}
-                          </p>
-                        )}
-                      </td>
-                      <td className="py-4 px-4 whitespace-nowrap text-neutral-300">
-                        <span className="px-2.5 py-1 rounded-md bg-neutral-900 border border-neutral-750 text-xs font-medium">
-                          {product.category || 'General'}
-                        </span>
-                      </td>
-                      <td className="py-4 px-4 text-center text-neutral-300 whitespace-nowrap font-medium text-xs sm:text-sm">
-                        {product.unit}
-                      </td>
-                      <td className="py-4 px-4 text-right font-mono font-bold text-emerald-400 whitespace-nowrap text-sm sm:text-base">
-                        {company.currencySymbol} {product.unitPrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                      </td>
-                      <td className="py-3.5 px-4 text-right whitespace-nowrap">
-                        <div className="flex items-center justify-end gap-1.5">
-                          <motion.button
-                            whileHover={{ scale: 1.15 }}
-                            whileTap={{ scale: 0.9 }}
-                            onClick={() => openEditModal(product)}
-                            className="p-1.5 text-neutral-400 hover:text-white bg-neutral-900 hover:bg-neutral-800 border border-neutral-700/80 rounded-md transition-colors cursor-pointer"
-                            title="Edit Item"
-                          >
-                            <Edit3 className="w-3.5 h-3.5" />
-                          </motion.button>
-                          <motion.button
-                            whileHover={{ scale: 1.15 }}
-                            whileTap={{ scale: 0.9 }}
-                            onClick={() => setProductToDelete(product)}
-                            className="p-1.5 text-neutral-500 hover:text-red-400 bg-neutral-900 hover:bg-red-950/40 border border-neutral-700/80 hover:border-red-800/60 rounded-md transition-colors cursor-pointer"
-                            title="Delete Item"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </motion.button>
-                        </div>
-                      </td>
-                    </motion.tr>
-                  );
-                })}
-              </AnimatePresence>
+        {filteredProducts.length === 0 ? (
+          <div className="py-16 text-center text-neutral-400 px-4">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+              className="max-w-md mx-auto space-y-3"
+            >
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-blue-600/20 border border-cyan-500/30 flex items-center justify-center mx-auto text-cyan-400 shadow-lg shadow-cyan-500/10">
+                <Package className="w-6 h-6" />
+              </div>
+              <div>
+                <p className="text-sm font-bold text-white">
+                  {searchQuery || selectedCategory !== 'all' ? 'No matching products found' : 'No products in your catalog yet'}
+                </p>
+                <p className="text-xs text-neutral-400 mt-1 leading-relaxed">
+                  {searchQuery || selectedCategory !== 'all'
+                    ? 'Try clearing your search query or category filter.'
+                    : 'Your catalog currently contains only products you add. Click below to add new equipment or import in bulk from Excel.'}
+                </p>
+              </div>
+              <div className="pt-2 flex flex-wrap items-center justify-center gap-2.5">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setIsExcelModalOpen(true)}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600/25 hover:bg-emerald-600/35 border border-emerald-500/40 text-emerald-300 rounded-xl text-xs font-semibold shadow-md shadow-emerald-500/15 cursor-pointer"
+                >
+                  <FileSpreadsheet className="w-4 h-4 text-emerald-400" />
+                  Import from Excel (.xlsx)
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={openAddModal}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white rounded-xl text-xs font-semibold shadow-md shadow-cyan-500/20 cursor-pointer"
+                >
+                  <Plus className="w-4 h-4" />
+                  Add Your Product
+                </motion.button>
+              </div>
+            </motion.div>
+          </div>
+        ) : (
+          <>
+            {/* MOBILE CARDS VIEW (block md:hidden) */}
+            <div className="block md:hidden divide-y divide-neutral-800">
+              {filteredProducts.map((product) => {
+                const arabic = product.arabicName || getAutoArabicName(product.name);
+                return (
+                  <div key={`m-${product.id}`} className="p-4 space-y-2.5 hover:bg-neutral-800/40 transition-colors">
+                    {/* Top: Model Number Badge + Category */}
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="inline-block px-2.5 py-1 rounded-lg bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 font-mono text-xs font-bold tracking-wide">
+                        {product.code}
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-neutral-900 border border-neutral-750 text-[11px] font-medium text-neutral-400">
+                        {product.category || 'General'}
+                      </span>
+                    </div>
 
-              {filteredProducts.length === 0 && (
-                <tr>
-                  <td colSpan={6} className="py-16 text-center text-neutral-400">
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.92 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.3 }}
-                      className="max-w-md mx-auto space-y-3"
-                    >
-                      <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-blue-600/20 border border-cyan-500/30 flex items-center justify-center mx-auto text-cyan-400 shadow-lg shadow-cyan-500/10">
-                        <Package className="w-6 h-6" />
-                      </div>
+                    {/* Name in English + Arabic */}
+                    <div>
+                      <div className="font-bold text-white text-base leading-snug">{product.name}</div>
+                      {arabic && (
+                        <div className="text-xs font-semibold text-cyan-400 font-sans mt-0.5" dir="rtl">
+                          {arabic}
+                        </div>
+                      )}
+                      {product.description && (
+                        <p className="text-xs text-neutral-400 mt-1 line-clamp-2 leading-relaxed">
+                          {product.description}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Price, Unit & Action Buttons */}
+                    <div className="flex items-center justify-between pt-2 border-t border-neutral-800/80">
                       <div>
-                        <p className="text-sm font-bold text-white">
-                          {searchQuery || selectedCategory !== 'all' ? 'No matching products found' : 'No products in your catalog yet'}
-                        </p>
-                        <p className="text-xs text-neutral-400 mt-1 leading-relaxed">
-                          {searchQuery || selectedCategory !== 'all'
-                            ? 'Try clearing your search query or category filter.'
-                            : 'Your catalog currently contains only products you add. Click below to add new equipment or import in bulk from Excel.'}
-                        </p>
+                        <span className="text-base font-mono font-bold text-emerald-400">
+                          {company.currencySymbol} {product.unitPrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        </span>
+                        <span className="text-xs text-neutral-400 ml-1">/{product.unit}</span>
                       </div>
-                      <div className="pt-2 flex flex-wrap items-center justify-center gap-2.5">
-                        <motion.button
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          onClick={() => setIsExcelModalOpen(true)}
-                          className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600/25 hover:bg-emerald-600/35 border border-emerald-500/40 text-emerald-300 rounded-lg text-xs font-semibold shadow-md shadow-emerald-500/15 cursor-pointer"
+
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => openEditModal(product)}
+                          className="p-2 min-w-[38px] min-h-[38px] flex items-center justify-center text-neutral-300 hover:text-white bg-neutral-900 hover:bg-neutral-800 border border-neutral-700/80 rounded-lg cursor-pointer"
+                          title="Edit Item"
                         >
-                          <FileSpreadsheet className="w-4 h-4 text-emerald-400" />
-                          Import from Excel (.xlsx)
-                        </motion.button>
-                        <motion.button
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          onClick={openAddModal}
-                          className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white rounded-lg text-xs font-semibold shadow-md shadow-cyan-500/20 cursor-pointer"
+                          <Edit3 className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => setProductToDelete(product)}
+                          className="p-2 min-w-[38px] min-h-[38px] flex items-center justify-center text-neutral-400 hover:text-red-400 bg-neutral-900 hover:bg-red-950/40 border border-neutral-700/80 rounded-lg cursor-pointer"
+                          title="Delete Item"
                         >
-                          <Plus className="w-4 h-4" />
-                          Add Your Product
-                        </motion.button>
+                          <Trash2 className="w-4 h-4" />
+                        </button>
                       </div>
-                    </motion.div>
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* DESKTOP TABLE VIEW (hidden md:block) */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead className="bg-neutral-900/80 border-b border-neutral-800 text-neutral-400 font-semibold text-xs tracking-wider uppercase">
+                  <tr>
+                    <th className="py-3.5 px-4 w-36">Model Number</th>
+                    <th className="py-3.5 px-4">Product Name &amp; Arabic Specs</th>
+                    <th className="py-3.5 px-4">Category</th>
+                    <th className="py-3.5 px-4 text-center">Unit</th>
+                    <th className="py-3.5 px-4 text-right">Standard Rate</th>
+                    <th className="py-3.5 px-4 text-right w-24">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-neutral-800/80">
+                  <AnimatePresence mode="popLayout">
+                    {filteredProducts.map((product, idx) => {
+                      const arabic = product.arabicName || getAutoArabicName(product.name);
+                      return (
+                        <motion.tr 
+                          key={product.id}
+                          layout
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, x: -20, height: 0 }}
+                          transition={{ duration: 0.25, delay: idx * 0.02 }}
+                          className="hover:bg-neutral-800/50 transition-colors"
+                        >
+                          <td className="py-4 px-4 whitespace-nowrap">
+                            <span className="inline-block px-3 py-1 rounded-lg bg-cyan-950/70 border border-cyan-500/40 text-cyan-300 font-mono text-xs sm:text-sm font-bold tracking-wide shadow-xs">
+                              {product.code}
+                            </span>
+                          </td>
+                          <td className="py-4 px-4 max-w-md">
+                            <div className="font-bold text-white text-sm sm:text-base leading-snug">{product.name}</div>
+                            {/* Bilingual Arabic display */}
+                            {arabic && (
+                              <div className="text-xs sm:text-sm font-semibold text-cyan-400 font-sans mt-0.5 tracking-tight" dir="rtl">
+                                {arabic}
+                              </div>
+                            )}
+                            {product.description && (
+                              <p className="text-xs text-neutral-400 mt-1 line-clamp-2 leading-relaxed">
+                                {product.description}
+                              </p>
+                            )}
+                          </td>
+                          <td className="py-4 px-4 whitespace-nowrap text-neutral-300">
+                            <span className="px-2.5 py-1 rounded-md bg-neutral-900 border border-neutral-750 text-xs font-medium">
+                              {product.category || 'General'}
+                            </span>
+                          </td>
+                          <td className="py-4 px-4 text-center text-neutral-300 whitespace-nowrap font-medium text-xs sm:text-sm">
+                            {product.unit}
+                          </td>
+                          <td className="py-4 px-4 text-right font-mono font-bold text-emerald-400 whitespace-nowrap text-sm sm:text-base">
+                            {company.currencySymbol} {product.unitPrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                          </td>
+                          <td className="py-3.5 px-4 text-right whitespace-nowrap">
+                            <div className="flex items-center justify-end gap-1.5">
+                              <motion.button
+                                whileHover={{ scale: 1.15 }}
+                                whileTap={{ scale: 0.9 }}
+                                onClick={() => openEditModal(product)}
+                                className="p-1.5 text-neutral-400 hover:text-white bg-neutral-900 hover:bg-neutral-800 border border-neutral-700/80 rounded-md transition-colors cursor-pointer"
+                                title="Edit Item"
+                              >
+                                <Edit3 className="w-3.5 h-3.5" />
+                              </motion.button>
+                              <motion.button
+                                whileHover={{ scale: 1.15 }}
+                                whileTap={{ scale: 0.9 }}
+                                onClick={() => setProductToDelete(product)}
+                                className="p-1.5 text-neutral-500 hover:text-red-400 bg-neutral-900 hover:bg-red-950/40 border border-neutral-700/80 hover:border-red-800/60 rounded-md transition-colors cursor-pointer"
+                                title="Delete Item"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </motion.button>
+                            </div>
+                          </td>
+                        </motion.tr>
+                      );
+                    })}
+                  </AnimatePresence>
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
       </motion.div>
 
       {/* Add / Edit Product Modal with Motion */}
@@ -572,7 +635,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.94, y: 16 }}
               transition={{ type: 'spring', stiffness: 400, damping: 28 }}
-              className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 w-full max-w-lg space-y-4 shadow-2xl relative"
+              className="bg-neutral-900 border border-neutral-800 rounded-xl p-4 sm:p-6 w-full max-w-lg space-y-4 shadow-2xl relative max-h-[90vh] overflow-y-auto"
             >
               <div className="flex items-center justify-between border-b border-neutral-800 pb-3">
                 <h2 className="text-base font-bold text-white flex items-center gap-2">

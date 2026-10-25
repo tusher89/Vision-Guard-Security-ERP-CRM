@@ -25,7 +25,11 @@ import {
   Printer, 
   Languages,
   Sparkles,
-  Crosshair
+  Crosshair,
+  FileText,
+  Users,
+  Package,
+  Settings
 } from 'lucide-react';
 
 export default function App() {
@@ -349,19 +353,24 @@ export default function App() {
       {/* Mobile Drawer Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <div className="fixed inset-0 z-50 flex md:hidden bg-black/60 backdrop-blur-xs">
+          <div 
+            onClick={() => setMobileMenuOpen(false)}
+            className="fixed inset-0 z-50 flex md:hidden bg-black/70 backdrop-blur-xs cursor-pointer"
+          >
             <motion.div 
               initial={{ x: -280 }}
               animate={{ x: 0 }}
               exit={{ x: -280 }}
               transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-              className="w-64 bg-neutral-900 h-full border-r border-neutral-800"
+              onClick={(e) => e.stopPropagation()}
+              className="w-72 max-w-[85vw] bg-[#090F1E] h-full border-r border-neutral-800 shadow-2xl flex flex-col justify-between overflow-y-auto cursor-default"
             >
-              <div className="p-4 flex items-center justify-between border-b border-neutral-800">
-                <span className="font-bold text-sm text-white">Menu</span>
+              <div className="p-3.5 flex items-center justify-between border-b border-neutral-800/80 bg-neutral-950/60">
+                <span className="font-bold text-xs uppercase tracking-wider text-cyan-400">Navigation Menu</span>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-neutral-400 hover:text-white p-1"
+                  className="text-neutral-400 hover:text-white p-2 min-w-[36px] min-h-[36px] flex items-center justify-center rounded-lg bg-neutral-800/60 hover:bg-neutral-800 cursor-pointer"
+                  aria-label="Close Menu"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -390,43 +399,44 @@ export default function App() {
       {/* Main Viewport Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
         {/* Top Header Bar with Animated Day / Night Toggle */}
-        <header className={`sticky top-0 z-30 flex items-center justify-between gap-6 px-6 py-3.5 backdrop-blur-md border-b transition-colors duration-500 ${
+        <header className={`sticky top-0 z-30 flex items-center justify-between gap-3 px-3 sm:px-6 py-2.5 sm:py-3.5 backdrop-blur-md border-b transition-colors duration-500 ${
           theme === 'dark' ? 'bg-[#080E1A]/90 border-neutral-800/80 shadow-md shadow-black/20' : 'bg-white/95 border-slate-200 shadow-sm'
         }`}>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             <button
               onClick={() => setMobileMenuOpen(true)}
-              className="md:hidden p-1.5 text-neutral-400 hover:text-white bg-neutral-800 rounded-lg cursor-pointer"
+              aria-label="Open navigation menu"
+              className="md:hidden p-2 min-w-[40px] min-h-[40px] flex items-center justify-center text-neutral-300 hover:text-white bg-neutral-800/90 active:bg-neutral-700 border border-neutral-700/80 rounded-xl cursor-pointer shrink-0 transition-colors"
             >
               <Menu className="w-5 h-5" />
             </button>
 
             {/* Breadcrumb Navigation Trail */}
-            <div className="flex items-center gap-2 text-xs">
-              <span className="font-bold text-neutral-300 flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 sm:gap-2 text-xs min-w-0">
+              <span className="font-bold text-neutral-300 hidden sm:flex items-center gap-1.5 shrink-0">
                 <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
                 <span>Vision Guard</span>
+                <span className="text-neutral-600">/</span>
               </span>
-              <span className="text-neutral-600">/</span>
-              <span className="font-bold capitalize bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+              <span className="font-bold capitalize bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent truncate text-xs sm:text-sm">
                 {currentTab === 'new-quote'
                   ? editingQuotation
-                    ? `Edit Quote (${editingQuotation.quotationNumber})`
-                    : 'Create Quotation'
+                    ? `Edit (${editingQuotation.quotationNumber})`
+                    : 'Create Quote'
                   : currentTab === 'quotations'
                   ? 'All Quotations'
                   : currentTab === 'clients'
-                  ? 'Client Directory (CRM)'
+                  ? 'Clients (CRM)'
                   : currentTab === 'products'
-                  ? 'Catalog & Inventory'
+                  ? 'Inventory Catalog'
                   : 'Company Settings'}
               </span>
             </div>
           </div>
 
           {/* Top Bar Zone: Cursor Animation Toggle, Day/Night Mode & Primary Action */}
-          <div className="flex items-center gap-2.5 shrink-0">
-            {/* Cursor Animation FX Toggle */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+            {/* Cursor Animation FX Toggle (Desktop only to save mobile header space) */}
             <motion.button
               type="button"
               whileHover={{ scale: 1.05 }}
@@ -434,14 +444,14 @@ export default function App() {
               onClick={toggleCursorAnimation}
               title={cursorAnimation ? 'Cursor Animation Active - Click to toggle' : 'Enable Cursor Animation'}
               aria-label="Toggle Cyber Cursor Animation"
-              className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border text-xs font-semibold transition-all cursor-pointer select-none no-print ${
+              className={`hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border text-xs font-semibold transition-all cursor-pointer select-none no-print ${
                 cursorAnimation
                   ? 'bg-cyan-500/15 border-cyan-500/40 text-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.25)]'
                   : 'bg-neutral-800/80 border-neutral-700/80 text-neutral-400 hover:text-neutral-200'
               }`}
             >
               <Crosshair className={`w-3.5 h-3.5 ${cursorAnimation ? 'animate-spin-slow text-cyan-400' : ''}`} />
-              <span className="text-[11px] font-medium hidden sm:inline">
+              <span className="text-[11px] font-medium hidden md:inline">
                 {cursorAnimation ? 'Cursor FX' : 'Cursor Off'}
               </span>
               {cursorAnimation && (
@@ -457,17 +467,18 @@ export default function App() {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => handleStartCreateQuotation()}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 rounded-xl shadow-md shadow-cyan-500/20 transition-all cursor-pointer whitespace-nowrap shrink-0"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-1.5 text-xs font-bold text-white bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 rounded-xl shadow-md shadow-cyan-500/20 transition-all cursor-pointer whitespace-nowrap shrink-0 min-h-[36px]"
               >
                 <Plus className="w-3.5 h-3.5" />
-                <span>New Quote</span>
+                <span className="hidden xs:inline">New Quote</span>
+                <span className="xs:hidden">Quote</span>
               </motion.button>
             )}
           </div>
         </header>
 
         {/* Tab Content Rendering with Motion Transition */}
-        <main className="flex-1 p-6 max-w-7xl w-full mx-auto">
+        <main className="flex-1 p-3.5 sm:p-5 md:p-6 pb-28 md:pb-8 max-w-7xl w-full mx-auto">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentTab + (editingQuotation ? editingQuotation.id : '')}
@@ -544,6 +555,121 @@ export default function App() {
             </motion.div>
           </AnimatePresence>
         </main>
+
+        {/* Mobile Friendly Bottom Navigation Bar (md:hidden) */}
+        <nav 
+          aria-label="Mobile Navigation"
+          className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-[#070C18]/95 backdrop-blur-lg border-t border-neutral-800/90 px-2 py-1.5 flex items-center justify-around shadow-2xl select-none"
+          style={{ paddingBottom: 'max(0.375rem, env(safe-area-inset-bottom))' }}
+        >
+          {/* Quotes Tab */}
+          <button
+            type="button"
+            onClick={() => {
+              setEditingQuotation(null);
+              setCurrentTab('quotations');
+            }}
+            className={`flex flex-col items-center justify-center flex-1 py-1 px-1 rounded-xl transition-all cursor-pointer relative ${
+              currentTab === 'quotations' ? 'text-cyan-400' : 'text-neutral-400 hover:text-neutral-200'
+            }`}
+          >
+            <div className="relative">
+              <FileText className="w-5 h-5" />
+              {quotations.length > 0 && (
+                <span className="absolute -top-1 -right-2.5 bg-blue-600 text-white font-mono text-[9px] font-bold px-1 rounded-full min-w-[14px] text-center">
+                  {quotations.length}
+                </span>
+              )}
+            </div>
+            <span className="text-[10px] font-semibold mt-0.5 tracking-tight">Quotes</span>
+            {currentTab === 'quotations' && (
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-0.5 shadow-[0_0_6px_rgba(6,182,212,0.8)]" />
+            )}
+          </button>
+
+          {/* Clients Tab */}
+          <button
+            type="button"
+            onClick={() => {
+              setEditingQuotation(null);
+              setCurrentTab('clients');
+            }}
+            className={`flex flex-col items-center justify-center flex-1 py-1 px-1 rounded-xl transition-all cursor-pointer relative ${
+              currentTab === 'clients' ? 'text-cyan-400' : 'text-neutral-400 hover:text-neutral-200'
+            }`}
+          >
+            <div className="relative">
+              <Users className="w-5 h-5" />
+              {clients.length > 0 && (
+                <span className="absolute -top-1 -right-2.5 bg-neutral-700 text-neutral-200 font-mono text-[9px] font-bold px-1 rounded-full min-w-[14px] text-center">
+                  {clients.length}
+                </span>
+              )}
+            </div>
+            <span className="text-[10px] font-semibold mt-0.5 tracking-tight">Clients</span>
+            {currentTab === 'clients' && (
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-0.5 shadow-[0_0_6px_rgba(6,182,212,0.8)]" />
+            )}
+          </button>
+
+          {/* Elevated Center Action: + New Quote */}
+          <div className="flex flex-col items-center justify-center px-1">
+            <motion.button
+              type="button"
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.92 }}
+              onClick={() => handleStartCreateQuotation()}
+              title="Create New Quotation"
+              className="w-12 h-12 -mt-5 rounded-full bg-gradient-to-tr from-blue-600 via-cyan-500 to-blue-500 text-white flex items-center justify-center shadow-lg shadow-cyan-500/35 border-2 border-[#070C18] cursor-pointer"
+            >
+              <Plus className="w-6 h-6 stroke-[2.5]" />
+            </motion.button>
+            <span className="text-[9px] font-bold text-cyan-300 mt-0.5">New</span>
+          </div>
+
+          {/* Products Tab */}
+          <button
+            type="button"
+            onClick={() => {
+              setEditingQuotation(null);
+              setCurrentTab('products');
+            }}
+            className={`flex flex-col items-center justify-center flex-1 py-1 px-1 rounded-xl transition-all cursor-pointer relative ${
+              currentTab === 'products' ? 'text-cyan-400' : 'text-neutral-400 hover:text-neutral-200'
+            }`}
+          >
+            <div className="relative">
+              <Package className="w-5 h-5" />
+              {products.length > 0 && (
+                <span className="absolute -top-1 -right-2.5 bg-neutral-700 text-neutral-200 font-mono text-[9px] font-bold px-1 rounded-full min-w-[14px] text-center">
+                  {products.length}
+                </span>
+              )}
+            </div>
+            <span className="text-[10px] font-semibold mt-0.5 tracking-tight">Catalog</span>
+            {currentTab === 'products' && (
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-0.5 shadow-[0_0_6px_rgba(6,182,212,0.8)]" />
+            )}
+          </button>
+
+          {/* Settings Tab */}
+          <button
+            type="button"
+            onClick={() => {
+              setEditingQuotation(null);
+              setCurrentTab('settings');
+            }}
+            className={`flex flex-col items-center justify-center flex-1 py-1 px-1 rounded-xl transition-all cursor-pointer relative ${
+              currentTab === 'settings' ? 'text-cyan-400' : 'text-neutral-400 hover:text-neutral-200'
+            }`}
+          >
+            <Settings className="w-5 h-5" />
+            <span className="text-[10px] font-semibold mt-0.5 tracking-tight">Settings</span>
+            {currentTab === 'settings' && (
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-0.5 shadow-[0_0_6px_rgba(6,182,212,0.8)]" />
+            )}
+          </button>
+        </nav>
       </div>
     </div>
   );

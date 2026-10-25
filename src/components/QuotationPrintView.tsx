@@ -90,30 +90,30 @@ export const QuotationPrintView: React.FC<QuotationPrintViewProps> = ({
       theme === 'dark' ? 'dark bg-neutral-900 text-neutral-100' : 'light bg-slate-200 text-slate-800'
     } pb-16`}>
       {/* Print Control Header (Hidden when printing via CSS @media print) */}
-      <div className={`no-print sticky top-0 z-40 border-b backdrop-blur px-6 py-4 transition-colors duration-300 ${
+      <div className={`no-print sticky top-0 z-40 border-b backdrop-blur px-3 sm:px-6 py-3 sm:py-4 transition-colors duration-300 ${
         theme === 'dark' ? 'bg-neutral-900/95 border-neutral-800' : 'bg-white/95 border-slate-300 shadow-sm'
       }`}>
-        <div className="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
+        <div className="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.94 }}
               onClick={onBack}
-              className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-neutral-300 hover:text-white bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 rounded-lg transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-sm font-medium text-neutral-300 hover:text-white bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 rounded-lg transition-colors cursor-pointer min-h-[36px]"
             >
               <ArrowLeft className="w-4 h-4" />
-              Back
+              <span>Back</span>
             </motion.button>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-semibold text-white text-base">
+                <span className="font-semibold text-white text-sm sm:text-base">
                   {quotation.quotationNumber}
                 </span>
-                <span className="text-xs px-2 py-0.5 rounded uppercase font-mono tracking-wider font-medium bg-neutral-800 text-neutral-300 border border-neutral-700">
+                <span className="text-[10px] sm:text-xs px-2 py-0.5 rounded uppercase font-mono tracking-wider font-medium bg-neutral-800 text-neutral-300 border border-neutral-700">
                   {quotation.status}
                 </span>
               </div>
-              <p className="text-xs text-neutral-400 truncate max-w-sm">
+              <p className="text-[11px] sm:text-xs text-neutral-400 truncate max-w-[200px] sm:max-w-sm">
                 {quotation.reference || quotation.clientSnapshot.companyName}
               </p>
             </div>
@@ -278,10 +278,10 @@ export const QuotationPrintView: React.FC<QuotationPrintViewProps> = ({
       </div>
 
       {/* Actual Printable Quotation Sheet - Centered A4 Page */}
-      <div className="max-w-4xl mx-auto mt-8 px-4 print:p-0 print:m-0 print:max-w-none">
+      <div className="max-w-4xl mx-auto mt-4 sm:mt-8 px-2 sm:px-4 print:p-0 print:m-0 print:max-w-none">
         <div
           id="printable-quotation-sheet"
-          className={`quotation-sheet relative bg-white text-slate-900 shadow-2xl rounded-sm p-10 md:p-14 mx-auto transition-all ${
+          className={`quotation-sheet relative bg-white text-slate-900 shadow-2xl rounded-sm p-4 sm:p-8 md:p-14 mx-auto transition-all overflow-x-auto print:overflow-visible ${
             template === 'corporate'
               ? 'border-t-8 border-slate-900'
               : template === 'modern'

@@ -433,16 +433,16 @@ export const QuotationBuilder: React.FC<QuotationBuilderProps> = ({
         </div>
 
         {/* Action Controls */}
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-start sm:justify-end">
           {initialQuotation && onDeleteQuotation && (
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => setShowDeleteQuoteModal(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-2 bg-red-950/40 hover:bg-red-900/60 text-red-300 border border-red-800/60 rounded-xl font-semibold text-xs cursor-pointer transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-2 bg-red-950/40 hover:bg-red-900/60 text-red-300 border border-red-800/60 rounded-xl font-semibold text-xs cursor-pointer transition-colors min-h-[38px]"
             >
               <Trash2 className="w-3.5 h-3.5" />
-              <span>Delete Quotation</span>
+              <span>Delete Quote</span>
             </motion.button>
           )}
 
@@ -450,7 +450,7 @@ export const QuotationBuilder: React.FC<QuotationBuilderProps> = ({
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => handleSave(false)}
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-800 hover:bg-neutral-700 text-white rounded-xl font-semibold text-xs transition-colors cursor-pointer border border-neutral-700"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-neutral-800 hover:bg-neutral-700 text-white rounded-xl font-semibold text-xs transition-colors cursor-pointer border border-neutral-700 min-h-[38px]"
           >
             <Save className="w-3.5 h-3.5" />
             <span>Save Draft</span>
@@ -460,7 +460,7 @@ export const QuotationBuilder: React.FC<QuotationBuilderProps> = ({
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => handleSave(true)}
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-bold text-xs shadow-lg shadow-cyan-500/20 transition-all cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-bold text-xs shadow-lg shadow-cyan-500/20 transition-all cursor-pointer min-h-[38px]"
           >
             <Printer className="w-4 h-4" />
             <span>Save &amp; Print / PDF</span>
@@ -472,7 +472,7 @@ export const QuotationBuilder: React.FC<QuotationBuilderProps> = ({
         {/* Main Content: Left Column (8 cols) */}
         <div className="lg:col-span-8 space-y-6">
           {/* Metadata Card */}
-          <div className="bg-neutral-900/90 border border-neutral-800 rounded-xl p-5 space-y-4">
+          <div className="bg-neutral-900/90 border border-neutral-800 rounded-xl p-3.5 sm:p-5 space-y-4">
             <h2 className="text-sm font-bold text-white flex items-center gap-2">
               <FileText className="w-4 h-4 text-cyan-400" />
               Quotation Information
@@ -692,7 +692,7 @@ export const QuotationBuilder: React.FC<QuotationBuilderProps> = ({
           </div>
 
           {/* Line Items Section */}
-          <div className="bg-neutral-900/90 border border-neutral-800 rounded-xl p-5 space-y-4">
+          <div className="bg-neutral-900/90 border border-neutral-800 rounded-xl p-3.5 sm:p-5 space-y-4">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-sm font-bold text-white flex items-center gap-2">
@@ -734,7 +734,7 @@ export const QuotationBuilder: React.FC<QuotationBuilderProps> = ({
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, height: 0, scale: 0.92, marginBottom: 0 }}
                       transition={{ duration: 0.25 }}
-                      className="bg-neutral-950 border border-neutral-800/90 hover:border-cyan-500/40 rounded-xl p-4 space-y-3 transition-colors relative shadow-sm"
+                      className="bg-neutral-950 border border-neutral-800/90 hover:border-cyan-500/40 rounded-xl p-3 sm:p-4 space-y-3 transition-colors relative shadow-sm"
                     >
                       <div className="flex items-center justify-between gap-2">
                         <div className="flex items-center gap-2">

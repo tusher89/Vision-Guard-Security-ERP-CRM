@@ -126,71 +126,71 @@ export const QuotationList: React.FC<QuotationListProps> = ({
         variants={containerVariants}
         initial="hidden"
         animate="show"
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+        className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4"
       >
         <motion.div
           variants={itemVariants}
           whileHover={{ y: -3, transition: { duration: 0.2 } }}
-          className="bg-neutral-850 border border-neutral-800 rounded-xl p-4 shadow-sm hover:border-neutral-700 transition-colors"
+          className="bg-neutral-850 border border-neutral-800 rounded-xl p-3 sm:p-4 shadow-sm hover:border-neutral-700 transition-colors"
         >
-          <span className="text-xs text-neutral-400 font-medium block">Total Quotations</span>
+          <span className="text-[11px] sm:text-xs text-neutral-400 font-medium block truncate">Total Quotations</span>
           <div className="flex items-baseline justify-between mt-1">
-            <span className="text-2xl font-bold font-mono text-white">
+            <span className="text-xl sm:text-2xl font-bold font-mono text-white">
               {quotations.length}
             </span>
-            <span className="text-xs font-mono text-neutral-400">
+            <span className="text-[10px] sm:text-xs font-mono text-neutral-400 hidden xs:inline truncate">
               {formatMoney(totalValue)}
             </span>
           </div>
-          <div className="text-[11px] text-neutral-500 mt-1">Total pipeline volume</div>
+          <div className="text-[10px] sm:text-[11px] text-neutral-500 mt-1 truncate">Pipeline volume</div>
         </motion.div>
 
         <motion.div
           variants={itemVariants}
           whileHover={{ y: -3, transition: { duration: 0.2 } }}
-          className="bg-neutral-850 border border-neutral-800 rounded-xl p-4 shadow-sm hover:border-neutral-700 transition-colors"
+          className="bg-neutral-850 border border-neutral-800 rounded-xl p-3 sm:p-4 shadow-sm hover:border-neutral-700 transition-colors"
         >
-          <span className="text-xs text-neutral-400 font-medium block">Accepted / Won</span>
+          <span className="text-[11px] sm:text-xs text-neutral-400 font-medium block truncate">Accepted / Won</span>
           <div className="flex items-baseline justify-between mt-1">
-            <span className="text-2xl font-bold font-mono text-emerald-400">
+            <span className="text-xl sm:text-2xl font-bold font-mono text-emerald-400">
               {acceptedQuotes.length}
             </span>
-            <span className="text-xs font-mono text-emerald-400 font-semibold">
+            <span className="text-[10px] sm:text-xs font-mono text-emerald-400 font-semibold hidden xs:inline truncate">
               {formatMoney(acceptedValue)}
             </span>
           </div>
-          <div className="text-[11px] text-neutral-500 mt-1">{winRate}% conversion rate</div>
+          <div className="text-[10px] sm:text-[11px] text-neutral-500 mt-1">{winRate}% win rate</div>
         </motion.div>
 
         <motion.div
           variants={itemVariants}
           whileHover={{ y: -3, transition: { duration: 0.2 } }}
-          className="bg-neutral-850 border border-neutral-800 rounded-xl p-4 shadow-sm hover:border-neutral-700 transition-colors"
+          className="bg-neutral-850 border border-neutral-800 rounded-xl p-3 sm:p-4 shadow-sm hover:border-neutral-700 transition-colors"
         >
-          <span className="text-xs text-neutral-400 font-medium block">Pending Follow-up</span>
+          <span className="text-[11px] sm:text-xs text-neutral-400 font-medium block truncate">Pending</span>
           <div className="flex items-baseline justify-between mt-1">
-            <span className="text-2xl font-bold font-mono text-amber-400">
+            <span className="text-xl sm:text-2xl font-bold font-mono text-amber-400">
               {pendingQuotes.length}
             </span>
-            <span className="text-xs font-mono text-neutral-400">
+            <span className="text-[10px] sm:text-xs font-mono text-neutral-400 hidden xs:inline truncate">
               {formatMoney(pendingQuotes.reduce((acc, q) => acc + q.grandTotal, 0))}
             </span>
           </div>
-          <div className="text-[11px] text-neutral-500 mt-1">Awaiting client decision</div>
+          <div className="text-[10px] sm:text-[11px] text-neutral-500 mt-1 truncate">Awaiting decision</div>
         </motion.div>
 
         <motion.div
           variants={itemVariants}
           whileHover={{ y: -3, transition: { duration: 0.2 } }}
-          className="bg-neutral-850 border border-neutral-800 rounded-xl p-4 shadow-sm hover:border-neutral-700 transition-colors"
+          className="bg-neutral-850 border border-neutral-800 rounded-xl p-3 sm:p-4 shadow-sm hover:border-neutral-700 transition-colors"
         >
-          <span className="text-xs text-neutral-400 font-medium block">Average Quotation Size</span>
+          <span className="text-[11px] sm:text-xs text-neutral-400 font-medium block truncate">Avg Quote Size</span>
           <div className="flex items-baseline justify-between mt-1">
-            <span className="text-2xl font-bold font-mono text-blue-400">
+            <span className="text-xl sm:text-2xl font-bold font-mono text-blue-400">
               {quotations.length > 0 ? formatMoney(totalValue / quotations.length) : '0'}
             </span>
           </div>
-          <div className="text-[11px] text-neutral-500 mt-1">Per proposal average</div>
+          <div className="text-[10px] sm:text-[11px] text-neutral-500 mt-1 truncate">Average proposal</div>
         </motion.div>
       </motion.div>
 
@@ -199,19 +199,19 @@ export const QuotationList: React.FC<QuotationListProps> = ({
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: 0.1 }}
-        className="bg-neutral-850 border border-neutral-800 rounded-xl p-4 space-y-3"
+        className="bg-neutral-850 border border-neutral-800 rounded-xl p-3 sm:p-4 space-y-3"
       >
-        <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           {/* Status filter tabs with animated indicator */}
-          <div className="flex items-center gap-1 p-1 bg-neutral-900 border border-neutral-800 rounded-lg text-xs overflow-x-auto no-scrollbar">
+          <div className="flex items-center gap-1 p-1 bg-neutral-900 border border-neutral-800 rounded-lg text-xs overflow-x-auto no-scrollbar scroll-smooth">
             {['all', 'accepted', 'sent', 'pending', 'draft', 'rejected'].map(status => {
               const isActive = selectedStatus === status;
               return (
                 <button
                   key={status}
                   onClick={() => setSelectedStatus(status)}
-                  className={`relative px-3 py-1.5 rounded-md font-medium transition-colors cursor-pointer capitalize whitespace-nowrap ${
-                    isActive ? 'text-white' : 'text-neutral-400 hover:text-neutral-200'
+                  className={`relative px-3 py-1.5 rounded-md font-medium transition-colors cursor-pointer capitalize whitespace-nowrap text-xs shrink-0 ${
+                    isActive ? 'text-white font-bold' : 'text-neutral-400 hover:text-neutral-200'
                   }`}
                 >
                   {isActive && (
@@ -237,13 +237,13 @@ export const QuotationList: React.FC<QuotationListProps> = ({
               placeholder="Search by quote #, client, reference..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-neutral-900 border border-neutral-700/80 rounded-lg pl-9 pr-3 py-1.5 text-xs text-white placeholder:text-neutral-500 focus:outline-none focus:border-blue-500 transition-colors"
+              className="w-full bg-neutral-900 border border-neutral-700/80 rounded-lg pl-9 pr-3 py-2 sm:py-1.5 text-xs text-white placeholder:text-neutral-500 focus:outline-none focus:border-blue-500 transition-colors"
             />
           </div>
         </div>
       </motion.div>
 
-      {/* Quotations Table */}
+      {/* Quotations List: Mobile Touch Cards (<md) + Desktop Table (>=md) */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -251,7 +251,7 @@ export const QuotationList: React.FC<QuotationListProps> = ({
         className="bg-neutral-850 border border-neutral-800 rounded-xl overflow-hidden shadow-sm"
       >
         {filteredQuotations.length === 0 ? (
-          <div className="py-16 text-center space-y-3">
+          <div className="py-16 text-center space-y-3 px-4">
             <FileText className="w-10 h-10 text-neutral-600 mx-auto" />
             <h3 className="text-sm font-semibold text-neutral-300">No Quotations Found</h3>
             <p className="text-xs text-neutral-500 max-w-sm mx-auto">
@@ -263,144 +263,232 @@ export const QuotationList: React.FC<QuotationListProps> = ({
               onClick={onCreateNew}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.96 }}
-              className="mt-2 inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg transition-colors cursor-pointer"
+              className="mt-2 inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl transition-colors cursor-pointer"
             >
               <Plus className="w-3.5 h-3.5" />
               Create First Quotation
             </motion.button>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-neutral-900/60 border-b border-neutral-800 text-neutral-400 font-medium">
-                <tr>
-                  <th className="py-3 px-4">Quotation #</th>
-                  <th className="py-3 px-4">Client & Project</th>
-                  <th className="py-3 px-4">Issue Date</th>
-                  <th className="py-3 px-4">Valid Until</th>
-                  <th className="py-3 px-4 text-right">Grand Total</th>
-                  <th className="py-3 px-4">Status</th>
-                  <th className="py-3 px-4 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-neutral-800/80">
-                {filteredQuotations.map((q, idx) => (
-                  <motion.tr
-                    key={q.id}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.2, delay: idx * 0.03 }}
-                    className="hover:bg-neutral-800/50 transition-colors group"
-                  >
-                    {/* Quotation Number */}
-                    <td className="py-3.5 px-4 font-mono font-semibold text-white whitespace-nowrap">
-                      <button
-                        onClick={() => onPrint(q)}
-                        className="hover:text-blue-400 transition-colors cursor-pointer text-left flex items-center gap-1.5"
-                      >
-                        <span>{q.quotationNumber}</span>
-                      </button>
-                    </td>
+          <>
+            {/* MOBILE CARDS VIEW (block md:hidden) */}
+            <div className="block md:hidden divide-y divide-neutral-800">
+              {filteredQuotations.map((q) => (
+                <div key={`m-${q.id}`} className="p-4 space-y-3 hover:bg-neutral-800/40 transition-colors">
+                  {/* Top line: Quote Number & Status Select */}
+                  <div className="flex items-center justify-between gap-2">
+                    <button
+                      onClick={() => onPrint(q)}
+                      className="font-mono font-bold text-cyan-400 text-sm hover:underline cursor-pointer flex items-center gap-1.5"
+                    >
+                      <FileText className="w-3.5 h-3.5 text-cyan-500" />
+                      <span>{q.quotationNumber}</span>
+                    </button>
+                    <select
+                      value={q.status}
+                      onChange={(e) => onUpdateStatus(q.id, e.target.value as Quotation['status'])}
+                      className="bg-neutral-900 border border-neutral-700/80 rounded-lg text-xs px-2.5 py-1 text-neutral-200 cursor-pointer font-medium"
+                    >
+                      <option value="draft">Draft</option>
+                      <option value="sent">Sent</option>
+                      <option value="pending">Pending</option>
+                      <option value="accepted">Accepted</option>
+                      <option value="rejected">Rejected</option>
+                      <option value="invoiced">Invoiced</option>
+                    </select>
+                  </div>
 
-                    {/* Client & Project */}
-                    <td className="py-3.5 px-4 max-w-xs">
-                      <div className="font-semibold text-neutral-200 truncate">
-                        {q.clientSnapshot?.companyName || q.clientSnapshot?.name}
-                      </div>
-                      <div className="text-[11px] text-neutral-400 truncate flex items-center gap-1.5 mt-0.5">
-                        <span>{q.reference || `${q.items.length} items`}</span>
-                        <span className="text-neutral-600">·</span>
-                        <span className="text-[10px] text-blue-400 font-medium flex items-center gap-0.5">
-                          <Languages className="w-3 h-3" /> Arabic
-                        </span>
-                      </div>
-                    </td>
+                  {/* Client name and reference */}
+                  <div>
+                    <div className="font-semibold text-white text-sm">
+                      {q.clientSnapshot?.companyName || q.clientSnapshot?.name}
+                    </div>
+                    <div className="text-xs text-neutral-400 mt-0.5 truncate">
+                      {q.reference || `${q.items.length} item(s)`}
+                    </div>
+                  </div>
 
-                    {/* Issue Date */}
-                    <td className="py-3.5 px-4 font-mono text-neutral-400 whitespace-nowrap">
-                      {q.date}
-                    </td>
+                  {/* Date & Grand Total */}
+                  <div className="flex items-center justify-between pt-1 text-xs">
+                    <span className="text-neutral-500 font-mono">Date: {q.date}</span>
+                    <div className="text-right">
+                      <span className="font-mono font-bold text-base text-white">
+                        {formatMoney(q.grandTotal)}
+                      </span>
+                    </div>
+                  </div>
 
-                    {/* Valid Until */}
-                    <td className="py-3.5 px-4 font-mono text-neutral-400 whitespace-nowrap">
-                      {q.validUntil}
-                    </td>
+                  {/* Mobile Action Buttons Bar with large touch targets */}
+                  <div className="flex items-center gap-2 pt-2 border-t border-neutral-800/80">
+                    <button
+                      onClick={() => onPrint(q)}
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 px-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-bold text-xs transition-colors cursor-pointer"
+                    >
+                      <Printer className="w-3.5 h-3.5" />
+                      <span>Print / PDF</span>
+                    </button>
 
-                    {/* Grand Total */}
-                    <td className="py-3.5 px-4 text-right font-mono font-bold text-white whitespace-nowrap">
-                      {formatMoney(q.grandTotal)}
-                    </td>
+                    <button
+                      onClick={() => onEdit(q)}
+                      className="p-2 min-w-[38px] min-h-[38px] flex items-center justify-center text-neutral-300 hover:text-white bg-neutral-900 hover:bg-neutral-800 border border-neutral-700/80 rounded-lg cursor-pointer"
+                      title="Edit"
+                    >
+                      <Edit3 className="w-4 h-4" />
+                    </button>
 
-                    {/* Status Dropdown */}
-                    <td className="py-3.5 px-4 whitespace-nowrap">
-                      <select
-                        value={q.status}
-                        onChange={(e) => onUpdateStatus(q.id, e.target.value as Quotation['status'])}
-                        className="bg-neutral-900 border border-neutral-700 rounded text-xs px-2 py-1 text-neutral-200 cursor-pointer focus:outline-none focus:border-blue-500 transition-colors"
-                      >
-                        <option value="draft">Draft</option>
-                        <option value="sent">Sent</option>
-                        <option value="pending">Pending</option>
-                        <option value="accepted">Accepted</option>
-                        <option value="rejected">Rejected</option>
-                        <option value="invoiced">Invoiced</option>
-                      </select>
-                    </td>
+                    <button
+                      onClick={() => onDuplicate(q.id)}
+                      className="p-2 min-w-[38px] min-h-[38px] flex items-center justify-center text-neutral-300 hover:text-white bg-neutral-900 hover:bg-neutral-800 border border-neutral-700/80 rounded-lg cursor-pointer"
+                      title="Duplicate"
+                    >
+                      <Copy className="w-4 h-4" />
+                    </button>
 
-                    {/* Actions with Spring Button Interactions */}
-                    <td className="py-3.5 px-4 text-right whitespace-nowrap">
-                      <div className="flex items-center justify-end gap-1.5">
-                        {/* PRINT BUTTON - Prominent */}
-                        <motion.button
+                    <button
+                      onClick={() => setQuoteToDelete(q)}
+                      className="p-2 min-w-[38px] min-h-[38px] flex items-center justify-center text-neutral-400 hover:text-red-400 bg-neutral-900 hover:bg-red-950/40 border border-neutral-700/80 rounded-lg cursor-pointer"
+                      title="Delete"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* DESKTOP TABLE VIEW (hidden md:block) */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead className="bg-neutral-900/60 border-b border-neutral-800 text-neutral-400 font-medium">
+                  <tr>
+                    <th className="py-3 px-4">Quotation #</th>
+                    <th className="py-3 px-4">Client & Project</th>
+                    <th className="py-3 px-4">Issue Date</th>
+                    <th className="py-3 px-4">Valid Until</th>
+                    <th className="py-3 px-4 text-right">Grand Total</th>
+                    <th className="py-3 px-4">Status</th>
+                    <th className="py-3 px-4 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-neutral-800/80">
+                  {filteredQuotations.map((q, idx) => (
+                    <motion.tr
+                      key={q.id}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.2, delay: idx * 0.03 }}
+                      className="hover:bg-neutral-800/50 transition-colors group"
+                    >
+                      {/* Quotation Number */}
+                      <td className="py-3.5 px-4 font-mono font-semibold text-white whitespace-nowrap">
+                        <button
                           onClick={() => onPrint(q)}
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.94 }}
-                          className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 rounded-md font-medium transition-colors cursor-pointer"
-                          title="Print Quotation with Arabic"
+                          className="hover:text-blue-400 transition-colors cursor-pointer text-left flex items-center gap-1.5"
                         >
-                          <Printer className="w-3.5 h-3.5" />
-                          <span>Print</span>
-                        </motion.button>
+                          <span>{q.quotationNumber}</span>
+                        </button>
+                      </td>
 
-                        {/* EDIT BUTTON */}
-                        <motion.button
-                          onClick={() => onEdit(q)}
-                          whileHover={{ scale: 1.08 }}
-                          whileTap={{ scale: 0.92 }}
-                          className="p-1.5 text-neutral-400 hover:text-neutral-200 bg-neutral-900 hover:bg-neutral-800 border border-neutral-700/80 rounded-md transition-colors cursor-pointer"
-                          title="Edit Quotation"
-                        >
-                          <Edit3 className="w-3.5 h-3.5" />
-                        </motion.button>
+                      {/* Client & Project */}
+                      <td className="py-3.5 px-4 max-w-xs">
+                        <div className="font-semibold text-neutral-200 truncate">
+                          {q.clientSnapshot?.companyName || q.clientSnapshot?.name}
+                        </div>
+                        <div className="text-[11px] text-neutral-400 truncate flex items-center gap-1.5 mt-0.5">
+                          <span>{q.reference || `${q.items.length} items`}</span>
+                          <span className="text-neutral-600">·</span>
+                          <span className="text-[10px] text-blue-400 font-medium flex items-center gap-0.5">
+                            <Languages className="w-3 h-3" /> Arabic
+                          </span>
+                        </div>
+                      </td>
 
-                        {/* DUPLICATE BUTTON */}
-                        <motion.button
-                          onClick={() => onDuplicate(q.id)}
-                          whileHover={{ scale: 1.08 }}
-                          whileTap={{ scale: 0.92 }}
-                          className="p-1.5 text-neutral-400 hover:text-neutral-200 bg-neutral-900 hover:bg-neutral-800 border border-neutral-700/80 rounded-md transition-colors cursor-pointer"
-                          title="Duplicate Quotation"
-                        >
-                          <Copy className="w-3.5 h-3.5" />
-                        </motion.button>
+                      {/* Issue Date */}
+                      <td className="py-3.5 px-4 font-mono text-neutral-400 whitespace-nowrap">
+                        {q.date}
+                      </td>
 
-                        {/* DELETE BUTTON */}
-                        <motion.button
-                          onClick={() => setQuoteToDelete(q)}
-                          whileHover={{ scale: 1.08 }}
-                          whileTap={{ scale: 0.92 }}
-                          className="p-1.5 text-neutral-500 hover:text-red-400 bg-neutral-900 hover:bg-neutral-800 border border-neutral-700/80 rounded-md transition-colors cursor-pointer"
-                          title="Delete Quotation"
+                      {/* Valid Until */}
+                      <td className="py-3.5 px-4 font-mono text-neutral-400 whitespace-nowrap">
+                        {q.validUntil}
+                      </td>
+
+                      {/* Grand Total */}
+                      <td className="py-3.5 px-4 text-right font-mono font-bold text-white whitespace-nowrap">
+                        {formatMoney(q.grandTotal)}
+                      </td>
+
+                      {/* Status Dropdown */}
+                      <td className="py-3.5 px-4 whitespace-nowrap">
+                        <select
+                          value={q.status}
+                          onChange={(e) => onUpdateStatus(q.id, e.target.value as Quotation['status'])}
+                          className="bg-neutral-900 border border-neutral-700 rounded text-xs px-2 py-1 text-neutral-200 cursor-pointer focus:outline-none focus:border-blue-500 transition-colors"
                         >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </motion.button>
-                      </div>
-                    </td>
-                  </motion.tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                          <option value="draft">Draft</option>
+                          <option value="sent">Sent</option>
+                          <option value="pending">Pending</option>
+                          <option value="accepted">Accepted</option>
+                          <option value="rejected">Rejected</option>
+                          <option value="invoiced">Invoiced</option>
+                        </select>
+                      </td>
+
+                      {/* Actions with Spring Button Interactions */}
+                      <td className="py-3.5 px-4 text-right whitespace-nowrap">
+                        <div className="flex items-center justify-end gap-1.5">
+                          {/* PRINT BUTTON - Prominent */}
+                          <motion.button
+                            onClick={() => onPrint(q)}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.94 }}
+                            className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 rounded-md font-medium transition-colors cursor-pointer"
+                            title="Print Quotation with Arabic"
+                          >
+                            <Printer className="w-3.5 h-3.5" />
+                            <span>Print</span>
+                          </motion.button>
+
+                          {/* EDIT BUTTON */}
+                          <motion.button
+                            onClick={() => onEdit(q)}
+                            whileHover={{ scale: 1.08 }}
+                            whileTap={{ scale: 0.92 }}
+                            className="p-1.5 text-neutral-400 hover:text-neutral-200 bg-neutral-900 hover:bg-neutral-800 border border-neutral-700/80 rounded-md transition-colors cursor-pointer"
+                            title="Edit Quotation"
+                          >
+                            <Edit3 className="w-3.5 h-3.5" />
+                          </motion.button>
+
+                          {/* DUPLICATE BUTTON */}
+                          <motion.button
+                            onClick={() => onDuplicate(q.id)}
+                            whileHover={{ scale: 1.08 }}
+                            whileTap={{ scale: 0.92 }}
+                            className="p-1.5 text-neutral-400 hover:text-neutral-200 bg-neutral-900 hover:bg-neutral-800 border border-neutral-700/80 rounded-md transition-colors cursor-pointer"
+                            title="Duplicate Quotation"
+                          >
+                            <Copy className="w-3.5 h-3.5" />
+                          </motion.button>
+
+                          {/* DELETE BUTTON */}
+                          <motion.button
+                            onClick={() => setQuoteToDelete(q)}
+                            whileHover={{ scale: 1.08 }}
+                            whileTap={{ scale: 0.92 }}
+                            className="p-1.5 text-neutral-500 hover:text-red-400 bg-neutral-900 hover:bg-neutral-800 border border-neutral-700/80 rounded-md transition-colors cursor-pointer"
+                            title="Delete Quotation"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </motion.button>
+                        </div>
+                      </td>
+                    </motion.tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </motion.div>
 
